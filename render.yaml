@@ -1,0 +1,18 @@
+# One-click deploy: Render dashboard -> New -> Blueprint -> pick this repo.
+# Render reads this file, asks you for TOKEN, and builds + starts the bot.
+services:
+  - type: web
+    name: uno-bot
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      # Python 3.13 is pinned here and in .python-version.
+      - key: PYTHON_VERSION
+        value: 3.13.14
+      # Your bot token from @BotFather. Render prompts for it on first deploy.
+      - key: TOKEN
+        sync: false
